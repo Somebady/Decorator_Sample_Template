@@ -6,10 +6,11 @@ import time
 #Context Manager
 class postGress():
     def __init__(self,connection):
-        self.engine = create_engine(connection)
+        self.connection=connection
+    def __enter__(self):
+        self.engine = create_engine(self.connection)
         self.connection=self.engine.raw_connection()
         self.cursor=self.connection.cursor()
-    def __enter__(self):
         return self.cursor
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type:
